@@ -1,0 +1,381 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700);
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+@import url(https://fonts.googleapis.com/css?family=Marko+One);
+@import url(https://fonts.googleapis.com/css?family=Merriweather);
+@import url(https://fonts.googleapis.com/css?family=Ubuntu);
+
+$swift: cubic-bezier(0.55,0,.1,1);
+$grey: #616161;
+$red: #c62828;
+$blue: #1565C0;
+$green: #2E7D32;
+
+* {
+  box-sizing: border-box;
+}
+body, html {
+  height: 100%;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 32px;
+  background-color: #000;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+fovea-slideshow {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  overflow: hidden;
+
+  &[transition] {
+    transition: all 0.4s $swift;
+  }
+  &[black='true'] {
+    opacity: 0;
+  }
+  &[saturate='true'] {
+    img {
+      -webkit-filter: saturate(2);
+    }
+  }
+  &[supersaturate='true'] {
+    img {
+      -webkit-filter: saturate(4);
+    }
+  }
+  &[saturate='true'][supersaturate='true'] {
+    img {
+      -webkit-filter: saturate(8);
+    }
+  }
+  &[shownotes='true'] {
+    slide {
+      notes {
+        bottom: 0%;
+      }
+    }
+  }
+  &[shownotes='false'] {
+    slide {
+      notes {
+        bottom: -25%;
+      }
+    }
+  }
+
+  &[background="white"] slide {
+    background-color: #fff;
+  }
+  &[background="grey"] slide {
+    background-color: $grey;
+  }
+  &[background="red"] slide {
+    background-color: $red;
+  }
+  &[background="blue"] slide {
+    background-color: $blue;
+  }
+  &[background="green"] slide {
+    background-color: $green;
+  }
+
+  .slideIndicator {
+    display: block;
+    position: absolute;
+    z-index: 1000;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+
+    div {
+      background-color: rgba(255,255,255,0.3);
+      width: 0%;
+      height: 100%;
+      transition: all 0.4s $swift;
+    }
+  }
+  .clock, .timer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    background-color: rgba(0,0,0,0);
+    transition: all 0.4s $swift;
+    transform: translateZ(0);
+    pointer-events: none;
+
+    p {
+      font-size: 16vw;
+      color: #fff;
+      opacity: 0;
+      transform: translateY(10vh);
+      transition: all 0.4s $swift;
+    }
+
+    &[visible="true"] {
+      background-color: rgba(0,0,0,0.9);
+      pointer-events: all;
+
+      p {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+  .lightbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2000;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    transform: translateZ(0px);
+    pointer-events: none;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      opacity: 0;
+      transition: all 0.4s $swift;
+    }
+
+    img {
+      // width: 70%;
+      opacity: 0;
+      border-radius: 4px;
+
+      &[visible="true"] {
+        opacity: 1;
+      }
+      &[animate="true"] {
+        transition: all 0.4s $swift;
+      }
+    }
+
+    &[iszoom="true"] {
+      pointer-events: all;
+
+      &::before {
+        opacity: 1;
+      }
+
+      img {
+        // opacity: 1;
+      }
+    }
+  }
+
+  slide {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background-color: #000;
+    color: #fff;
+    opacity: 0;
+    transition: inherit;
+
+    &[visible="true"] {
+      opacity: 1;
+      // z-index: 1000;
+    }
+    &[visible="true"][focus="false"] {
+      // z-index: 2000;
+
+      notes {
+        opacity: 0;
+      }
+    }
+    &[focus="false"] {
+      pointer-events: none;
+    }
+
+    &[background="white"] {
+      background-color: #fff;
+    }
+    &[background="grey"] {
+      background-color: $grey;
+    }
+    &[background="red"] {
+      background-color: $red;
+    }
+    &[background="blue"] {
+      background-color: $blue;
+    }
+    &[background="green"] {
+      background-color: $green;
+    }
+
+    &::before {
+      content: "";
+      display: block;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      position: absolute;
+      pointer-events: none;
+      mix-blend-mode: normal;
+      // background: -webkit-radial-gradient(50% 50%, circle closest-corner, rgba(62, 162, 253, 0.5) 10, rgba(0, 0, 0, 1));
+      background: radial-gradient(circle closest-corner at 50% 50%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 90%, rgba(0, 0, 0, 0.4));
+    }
+
+    .slideBackground {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-size: cover;
+      background-position: center center;
+    }
+
+    content {
+      display: block;
+      position: relative;
+      z-index: 1;
+      padding: 5%;
+
+      h1 {
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 1em;
+        font-family: 'Marko One', serif;
+        // font-family: 'Merriweather', serif;
+      }
+      h2 {
+        font-size: 1.5em;
+        margin-bottom: 1em;
+        opacity: 0.8;
+        font-family: 'Marko One', serif;
+        // font-family: 'Merriweather', serif;
+      }
+      p {
+        margin-bottom: 0.7em;
+      }
+      images {
+        display: flex;
+        flex-flow: row wrap;
+        align-items: flex-start;
+        width: 100%;
+
+        > div {
+          position: relative;
+          flex: 1;
+          margin: 0 1%;
+          min-height: 10px;
+          max-width: 50%;
+          z-index: 0;
+          background-color: #fff;
+
+          &::before {
+            content: '';
+            position: absolute;
+            display: block;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            z-index: -10;
+            transform: scale(0.9);
+            box-shadow: 0px 12px 24px rgba(0,0,0,0.4);
+            transition: all 0.4s $swift;
+          }
+
+          &[zoomhide="true"] {
+            opacity: 0;
+          }
+
+          &[canzoom="true"]:hover {
+            cursor: pointer;
+
+            &::before {
+              opacity: 1;
+              transform: scale(1);
+            }
+          }
+
+//           &[canzoom="true"][iszoom="true"] {
+//             display: flex;
+//             align-items: center;
+//             justify-content: center;
+//             position: absolute;
+//             top: 0;
+//             left: 0;
+//             right: 0;
+//             bottom: 0;
+//             z-index: 2000;
+//             width: 100%;
+//             height: 100%;
+//             margin: 0;
+//             background-color: rgba(0,0,0,0.6);
+
+//             &::before {
+//               opacity: 1;
+//               transform: scale(1);
+//             }
+
+//             img {
+//               width: 70%;
+//             }
+//           }
+
+          img {
+            display: block;
+            position: relative;
+            // z-index: 10;
+            width: 100%;
+            height: auto;
+            border-radius: 2px;
+            // pointer-events: none;
+            // user-select: none;
+            transition: all 0.4s $swift;
+          }
+        }
+      }
+    }
+    notes {
+      display: block;
+      position: absolute;
+      z-index: 1000;
+      height: 20%;
+      width: 90%;
+      margin: 0 5%;
+      padding: 16px 32px;
+      color: #212121;
+      font-family: 'Indie Flower', cursive;
+      background-color: #fff;
+      background-image: url("http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/lined_paper.png");
+      transition: all 0.4s $swift;
+      box-shadow: 0px 0px 32px rgba(0,0,0,0.5);
+    }
+  }
+}
