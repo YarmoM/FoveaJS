@@ -16,7 +16,7 @@ $.ready().then(function(){
   slideshow.setAttribute('black', true);
 
   window.addEventListener('resize', resizeSlides);
-  Mousetrap.bind(['right', 'down', 'pagedown'], function() { updateSlide('next') });
+  Mousetrap.bind(['right', 'down', 'pagedown', 'space', 'enter'], function() { updateSlide('next') });
   Mousetrap.bind(['left', 'up', 'pageup'], function() { updateSlide('previous') });
   Mousetrap.bind('b', function() { hideSlideshow() });
   Mousetrap.bind('n', function() { toggleNotes() });

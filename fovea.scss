@@ -1,14 +1,23 @@
+
+// Font imports
+
 @import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700);
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 @import url(https://fonts.googleapis.com/css?family=Marko+One);
 @import url(https://fonts.googleapis.com/css?family=Merriweather);
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
 
+
+// Variables
+
 $swift: cubic-bezier(0.55,0,.1,1);
 $grey: #616161;
 $red: #c62828;
 $blue: #1565C0;
 $green: #2E7D32;
+
+
+// Styles
 
 * {
   box-sizing: border-box;
